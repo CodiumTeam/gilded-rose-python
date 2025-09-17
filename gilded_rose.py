@@ -13,7 +13,7 @@ class GildedRose(object):
         for item in self.items:
             if item.name == AGED_BRIE:
                 item.increase_quality()
-                item.sell_in = item.sell_in - 1
+                item.decrease_sell_in()
                 if item.sell_in < 0:
                     item.increase_quality()
 
@@ -23,9 +23,9 @@ class GildedRose(object):
                     item.increase_quality()
                 if item.sell_in < 6:
                     item.increase_quality()
-                item.sell_in = item.sell_in - 1
+                item.decrease_sell_in()
                 if item.sell_in < 0:
-                    item.quality = item.quality - item.quality
+                    item.quality = 0
 
             elif item.name == SULFURAS:
                 pass
@@ -33,7 +33,7 @@ class GildedRose(object):
             # the rest of the products
             else:
                 item.decrease_quality()
-                item.sell_in = item.sell_in - 1
+                item.decrease_sell_in()
                 if item.sell_in < 0:
                     item.decrease_quality()
 
@@ -51,6 +51,9 @@ class Item:
     def decrease_quality(self):
         if self.quality > 0:
             self.quality = self.quality - 1
+
+    def decrease_sell_in(self):
+        self.sell_in = self.sell_in - 1
 
     def __repr__(self):
         return "%s, %s, %s" % (self.name, self.sell_in, self.quality)
