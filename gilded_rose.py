@@ -15,6 +15,9 @@ class GildedRose(object):
                 if item.quality < 50:
                     item.quality = item.quality + 1
                 item.sell_in = item.sell_in - 1
+                if item.sell_in < 0:
+                    if item.quality < 50:
+                        item.quality = item.quality + 1
 
             elif item.name == BACKSTAGE_PASSES:
                 if item.quality < 50:
@@ -26,26 +29,20 @@ class GildedRose(object):
                         if item.quality < 50:
                             item.quality = item.quality + 1
                 item.sell_in = item.sell_in - 1
+                if item.sell_in < 0:
+                    item.quality = item.quality - item.quality
 
             elif item.name == SULFURAS:
                 pass
+
             # the rest of the products
             else:
                 if item.quality > 0:
                     item.quality = item.quality - 1
                 item.sell_in = item.sell_in - 1
-
-            if item.sell_in < 0:
-                if item.name == AGED_BRIE:
-                    if item.quality < 50:
-                        item.quality = item.quality + 1
-                else:
-                    if item.name == BACKSTAGE_PASSES:
-                        item.quality = item.quality - item.quality
-                    else:
-                        if item.quality > 0:
-                            if item.name != SULFURAS:
-                                item.quality = item.quality - 1
+                if item.sell_in < 0:
+                    if item.quality > 0:
+                        item.quality = item.quality - 1
 
 
 class Item:
