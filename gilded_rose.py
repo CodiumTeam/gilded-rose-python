@@ -7,7 +7,16 @@ AGED_BRIE = "Aged Brie"
 class GildedRose(object):
 
     def __init__(self, items):
-        self.items = items
+        self.items = []
+        for item in items:
+            if item.name == AGED_BRIE:
+                self.items.append(AgedBrie(item.sell_in, item.quality))
+            elif item.name == BACKSTAGE_PASSES:
+                self.items.append(BackstagePasses(item.sell_in, item.quality))
+            elif item.name == SULFURAS:
+                self.items.append(Sulfuras(item.sell_in, item.quality))
+            else:
+                self.items.append(DefaultItem(item.name, item.sell_in, item.quality))
 
     def update_quality(self):
         for item in self.items:
@@ -57,3 +66,22 @@ class Item:
 
     def __repr__(self):
         return "%s, %s, %s" % (self.name, self.sell_in, self.quality)
+
+
+class AgedBrie(Item):
+    def __init__(self, sell_in, quality):
+        super().__init__(AGED_BRIE, sell_in, quality)
+
+
+class BackstagePasses(Item):
+    def __init__(self, sell_in, quality):
+        super().__init__(BACKSTAGE_PASSES, sell_in, quality)
+
+
+class Sulfuras(Item):
+    def __init__(self, sell_in, quality):
+        super().__init__(SULFURAS, sell_in, quality)
+
+
+class DefaultItem(Item):
+    pass
