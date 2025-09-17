@@ -12,22 +12,17 @@ class GildedRose(object):
     def update_quality(self):
         for item in self.items:
             if item.name == AGED_BRIE:
-                if item.quality < 50:
-                    item.quality = item.quality + 1
+                item.increase_quality()
                 item.sell_in = item.sell_in - 1
                 if item.sell_in < 0:
-                    if item.quality < 50:
-                        item.quality = item.quality + 1
+                    item.increase_quality()
 
             elif item.name == BACKSTAGE_PASSES:
-                if item.quality < 50:
-                    item.quality = item.quality + 1
-                    if item.sell_in < 11:
-                        if item.quality < 50:
-                            item.quality = item.quality + 1
-                    if item.sell_in < 6:
-                        if item.quality < 50:
-                            item.quality = item.quality + 1
+                item.increase_quality()
+                if item.sell_in < 11:
+                    item.increase_quality()
+                if item.sell_in < 6:
+                    item.increase_quality()
                 item.sell_in = item.sell_in - 1
                 if item.sell_in < 0:
                     item.quality = item.quality - item.quality
@@ -37,12 +32,10 @@ class GildedRose(object):
 
             # the rest of the products
             else:
-                if item.quality > 0:
-                    item.quality = item.quality - 1
+                item.decrease_quality()
                 item.sell_in = item.sell_in - 1
                 if item.sell_in < 0:
-                    if item.quality > 0:
-                        item.quality = item.quality - 1
+                    item.decrease_quality()
 
 
 class Item:
@@ -50,6 +43,14 @@ class Item:
         self.name = name
         self.sell_in = sell_in
         self.quality = quality
+
+    def increase_quality(self):
+        if self.quality < 50:
+            self.quality = self.quality + 1
+
+    def decrease_quality(self):
+        if self.quality > 0:
+            self.quality = self.quality - 1
 
     def __repr__(self):
         return "%s, %s, %s" % (self.name, self.sell_in, self.quality)
