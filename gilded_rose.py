@@ -46,8 +46,8 @@ class AgedBrie(Item):
         super().__init__(AGED_BRIE, sell_in, quality)
 
     def update_state(self):
-        self.increase_quality()
         self.decrease_sell_in()
+        self.increase_quality()
         if self.sell_in < 0:
             self.increase_quality()
 
@@ -57,12 +57,12 @@ class BackstagePasses(Item):
         super().__init__(BACKSTAGE_PASSES, sell_in, quality)
 
     def update_state(self):
-        self.increase_quality()
-        if self.sell_in < 11:
-            self.increase_quality()
-        if self.sell_in < 6:
-            self.increase_quality()
         self.decrease_sell_in()
+        self.increase_quality()
+        if self.sell_in < 10:
+            self.increase_quality()
+        if self.sell_in < 5:
+            self.increase_quality()
         if self.sell_in < 0:
             self.quality = 0
 
@@ -77,7 +77,7 @@ class Sulfuras(Item):
 
 class DefaultItem(Item):
     def update_state(self):
-        self.decrease_quality()
         self.decrease_sell_in()
+        self.decrease_quality()
         if self.sell_in < 0:
             self.decrease_quality()
