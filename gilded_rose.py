@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from abc import abstractmethod, ABC
+
 SULFURAS = "Sulfuras, Hand of Ragnaros"
 BACKSTAGE_PASSES = "Backstage passes to a TAFKAL80ETC concert"
 AGED_BRIE = "Aged Brie"
@@ -47,11 +49,15 @@ class GildedRose(object):
                     item.decrease_quality()
 
 
-class Item:
+class Item(ABC):
     def __init__(self, name, sell_in, quality):
         self.name = name
         self.sell_in = sell_in
         self.quality = quality
+
+    @abstractmethod
+    def update_state(self):
+        pass
 
     def increase_quality(self):
         if self.quality < 50:
@@ -72,16 +78,26 @@ class AgedBrie(Item):
     def __init__(self, sell_in, quality):
         super().__init__(AGED_BRIE, sell_in, quality)
 
+    def update_state(self):
+        pass
+
 
 class BackstagePasses(Item):
     def __init__(self, sell_in, quality):
         super().__init__(BACKSTAGE_PASSES, sell_in, quality)
+
+    def update_state(self):
+        pass
 
 
 class Sulfuras(Item):
     def __init__(self, sell_in, quality):
         super().__init__(SULFURAS, sell_in, quality)
 
+    def update_state(self):
+        pass
+
 
 class DefaultItem(Item):
-    pass
+    def update_state(self):
+        pass
