@@ -27,7 +27,9 @@ def main():
         for item in items:
             print(item)
         print("")
-        GildedRose(items).update_quality()
+        gilded_rose = GildedRose(items)
+        gilded_rose.update_quality()
+        items = gilded_rose.items
 
 
 if __name__ == "__main__":
