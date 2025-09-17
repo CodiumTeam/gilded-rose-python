@@ -22,31 +22,7 @@ class GildedRose(object):
 
     def update_quality(self):
         for item in self.items:
-            if item.name == AGED_BRIE:
-                item.increase_quality()
-                item.decrease_sell_in()
-                if item.sell_in < 0:
-                    item.increase_quality()
-
-            elif item.name == BACKSTAGE_PASSES:
-                item.increase_quality()
-                if item.sell_in < 11:
-                    item.increase_quality()
-                if item.sell_in < 6:
-                    item.increase_quality()
-                item.decrease_sell_in()
-                if item.sell_in < 0:
-                    item.quality = 0
-
-            elif item.name == SULFURAS:
-                pass
-
-            # the rest of the products
-            else:
-                item.decrease_quality()
-                item.decrease_sell_in()
-                if item.sell_in < 0:
-                    item.decrease_quality()
+            item.update_state()
 
 
 class Item(ABC):
@@ -79,7 +55,10 @@ class AgedBrie(Item):
         super().__init__(AGED_BRIE, sell_in, quality)
 
     def update_state(self):
-        pass
+        self.increase_quality()
+        self.decrease_sell_in()
+        if self.sell_in < 0:
+            self.increase_quality()
 
 
 class BackstagePasses(Item):
@@ -87,7 +66,14 @@ class BackstagePasses(Item):
         super().__init__(BACKSTAGE_PASSES, sell_in, quality)
 
     def update_state(self):
-        pass
+        self.increase_quality()
+        if self.sell_in < 11:
+            self.increase_quality()
+        if self.sell_in < 6:
+            self.increase_quality()
+        self.decrease_sell_in()
+        if self.sell_in < 0:
+            self.quality = 0
 
 
 class Sulfuras(Item):
@@ -100,4 +86,7 @@ class Sulfuras(Item):
 
 class DefaultItem(Item):
     def update_state(self):
-        pass
+        self.decrease_quality()
+        self.decrease_sell_in()
+        if self.sell_in < 0:
+            self.decrease_quality()
